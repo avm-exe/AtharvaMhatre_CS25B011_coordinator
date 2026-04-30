@@ -68,10 +68,11 @@ The `HashMap` class manages an array of `LinkedList` buckets of fixed size `N` u
 
 ---
 
-# C++ Learning Resources & Curriculum
+# C++ Learning Resources
 
 > **Note on Learning:** The topics below represent an exhaustive list of core concepts we expect you to learn. However, you are **not limited** to the provided links—these are simply starting points designed to be helpful. Please use any tools and resources at your disposal to master these subjects.
 
+> **Note:** While navigating these new and unfamiliar topics may seem daunting, we encourage you not to rush. Please complete what you can, keeping in mind that partial marks are awarded for your progress, and it's not necessary you finish everything.
 ---
 
 ## 1. C++ Basics
