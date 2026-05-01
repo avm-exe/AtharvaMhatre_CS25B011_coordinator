@@ -1,18 +1,18 @@
+
 #include <cstddef>
 #include <iostream>
+#include <string>
+#include <stdexcept>
+#include <utility>
 
 class TestClass{
 private:
     int* value = nullptr;
 
 public:
-    TestClass() {
-        std::cout << "nullptr :Created\n";
-    }
+    TestClass() {}
 
-    TestClass(int v): value(new int(v)) {
-        std::cout << v << " :Created\n";
-    }
+    TestClass(int v): value(new int(v)) {}
 
     ~TestClass() {
         clear();
@@ -21,19 +21,12 @@ public:
     TestClass(const TestClass &other){
         if(other.value){
             value = new int(*other.value);
-            std::cout << *value << ": Copied\n";
         } else {
             value = nullptr;
-            std::cout << "nullptr: Copied\n";
         }
     }
 
     TestClass(TestClass &&other) noexcept : value(other.value) { 
-        if(value)
-            std::cout << *value << ": Moved\n";
-        else
-            std::cout << "nullptr: Moved\n";
-
         other.value = nullptr;
     }
 
@@ -42,10 +35,8 @@ public:
             clear();
             if(other.value){
                 value = new int(*other.value);
-                std::cout << *value << ": Copied\n";
             } else {
                 value = nullptr;
-                std::cout << "nullptr: Copied\n";
             }
         }
         return *this;
@@ -54,12 +45,6 @@ public:
     TestClass& operator=(TestClass&& other) noexcept{
         if (this != &other){
             clear();
-
-            if(other.value)
-                std::cout << *other.value << ": Moved\n";
-            else
-                std::cout << "nullptr: Moved\n";
-
             value = other.value;
             other.value = nullptr;
         }
@@ -67,28 +52,28 @@ public:
     }
     
     int get_val() const { 
-        return value ? *value : 0;   // safe fallback
+        return value ? *value : 0;
+    }
+    bool operator==(const TestClass& other) const {
+        if(value == nullptr && other.value == nullptr) return true;
+        if(value == nullptr || other.value == nullptr) return false;
+        return *value == *other.value;
+    }
+    bool operator!=(const TestClass& other) const {
+        return !(*this == other);
     }
 
 private:
     void clear(){
         if(value){
-            std::cout << *value << ": Deleted\n";
             delete value;
-            value = nullptr;   // CRITICAL
-        } else {
-            std::cout << "nullptr: Deleted\n";
+            value = nullptr;
         }
     }
 };
 
-
-
-
 ///-------------------------------- DO NOT LOOK ABOVE THIS LINE, IT'S FOR TESTING --------------------------------///
 ///------------------ IF YOU DO SO MEDUSA WILL COME TO YOU IN YOUR DREAMS AND TURN TO STONE :D ------------------///
-
-
 
 /// THE 3 CLASSES BELOW IS THE TEMPLATE DECLARATION OF THE CLASSES, FUNCTORS WE EXPECT YOU TO IMPLEMENT
 /// READ UPON THE RESOURCES PROVIDED AND DO THE IMPLEMENTATION
@@ -162,273 +147,911 @@ private:
 template<typename T>
 class HashFunctor{
 public:
-    size_t operator()(T Key);
+    size_t operator()(T Key) const;
 };
-
 
 ///---------------------- DO NOT TOUCH/MODIFY ABOVE THIS LINE, IT'S FOR YOUR REFERENCE ----------------------///
 ///------------------ IF YOU DO SO THE CURSE OF KING MIDUS WILL TURN IT INTO BROKEN CODE :P------------------///
 
-// WRITE THE IMPLEMENTATION OF THE CLASSES HERE
+// ============================================================
+//  WRITE YOUR IMPLEMENTATION BELOW THIS LINE
+// ============================================================
+
+// Convenience macros (feel free to use or remove)
+#define LIST         LinkedList<KeyType, ValueType>
+#define TEMPLATE     template<typename KeyType, typename ValueType>
+#define MAP          HashMap<N, KeyType, ValueType, HashFunc>
+#define TEMPLATE_MAP template<size_t N, typename KeyType, typename ValueType, typename HashFunc>
+
+// ------------------------------------------------------------
+//  LinkedList Implementation
+// ------------------------------------------------------------
+
+TEMPLATE
+LIST::LinkedList() {
+    // TODO
+}
+
+TEMPLATE
+LIST::~LinkedList() {
+    // TODO
+}
+
+TEMPLATE
+LIST::LinkedList(const LinkedList &other) {
+    // TODO
+}
+
+TEMPLATE
+LIST::LinkedList(LinkedList &&other) noexcept {
+    // TODO
+}
+
+TEMPLATE
+LIST &LIST::operator=(const LinkedList &other) {
+    // TODO
+    return *this;
+}
+
+TEMPLATE
+LIST &LIST::operator=(LinkedList &&other) noexcept {
+    // TODO
+    return *this;
+}
+
+TEMPLATE
+void LIST::insert(const KeyType &key, const ValueType &value) {
+    // TODO
+}
+
+TEMPLATE
+void LIST::erase(const KeyType &key) {
+    // TODO
+}
+
+TEMPLATE
+void LIST::clear() {
+    // TODO
+}
+
+TEMPLATE
+const ValueType &LIST::at(const KeyType &key) const {
+    // TODO
+    throw std::out_of_range("Key not found");
+}
+
+TEMPLATE
+ValueType &LIST::at(const KeyType &key) {
+    // TODO
+    throw std::out_of_range("Key not found");
+}
+
+TEMPLATE
+ValueType *LIST::find(const KeyType &key) {
+    // TODO
+    return nullptr;
+}
+
+TEMPLATE
+bool LIST::contains(const KeyType &key) const {
+    // TODO
+    return false;
+}
+
+TEMPLATE
+size_t LIST::size() const {
+    // TODO
+    return 0;
+}
+
+TEMPLATE
+bool LIST::operator==(const LinkedList &other) const {
+    // TODO
+    return false;
+}
+
+TEMPLATE
+bool LIST::operator!=(const LinkedList &other) const {
+    return !(*this == other);
+}
+
+// ------------------------------------------------------------
+//  HashFunctor Specialisations
+// ------------------------------------------------------------
+
+template<>
+class HashFunctor<int> {
+public:
+    size_t operator()(int key) const {
+        // TODO
+        return 0;
+    }
+};
+
+template<>
+class HashFunctor<float> {
+public:
+    size_t operator()(float key) const {
+        // TODO
+        return 0;
+    }
+};
+
+template<>
+class HashFunctor<std::string> {
+public:
+    size_t operator()(const std::string &key) const {
+        // TODO
+        return 0;
+    }
+};
+
+// ------------------------------------------------------------
+//  HashMap Implementation
+// ------------------------------------------------------------
+
+TEMPLATE_MAP
+MAP::HashMap() {
+    // TODO
+}
+
+TEMPLATE_MAP
+MAP::~HashMap() {
+    // TODO
+}
+
+TEMPLATE_MAP
+MAP &MAP::operator=(const HashMap &other) {
+    // TODO
+    return *this;
+}
+
+TEMPLATE_MAP
+MAP &MAP::operator=(HashMap &&other) noexcept {
+    // TODO
+    return *this;
+}
+
+TEMPLATE_MAP
+void MAP::insert(const KeyType &key, const ValueType &value) {
+    // TODO
+}
+
+TEMPLATE_MAP
+void MAP::erase(const KeyType &key) {
+    // TODO
+}
+
+TEMPLATE_MAP
+void MAP::clear() {
+    // TODO
+}
+
+TEMPLATE_MAP
+const ValueType &MAP::at(const KeyType &key) const {
+    // TODO
+    throw std::out_of_range("Key not found");
+}
+
+TEMPLATE_MAP
+ValueType &MAP::at(const KeyType &key) {
+    // TODO
+    throw std::out_of_range("Key not found");
+}
+
+TEMPLATE_MAP
+ValueType &MAP::operator[](const KeyType &key) {
+    // TODO
+    static ValueType dummy{};
+    return dummy;
+}
+
+TEMPLATE_MAP
+bool MAP::contains(const KeyType &key) const {
+    // TODO
+    return false;
+}
+
+TEMPLATE_MAP
+bool MAP::empty() const {
+    return size() == 0;
+}
+
+TEMPLATE_MAP
+size_t MAP::size() const {
+    // TODO
+    return 0;
+}
+
+TEMPLATE_MAP
+bool MAP::operator==(const HashMap &other) const {
+    // TODO
+    return false;
+}
+
+TEMPLATE_MAP
+bool MAP::operator!=(const HashMap &other) const {
+    return !(*this == other);
+}
+
+// ============================================================
+//  Cleanup macros
+// ============================================================
+
+#undef LIST
+#undef TEMPLATE
+#undef MAP
+#undef TEMPLATE_MAP
+
+// ============================================================
+//  Allocation baseline reset 
+//  — do not remove these two lines —
+// ============================================================
 
 
+extern int current_allocations;
+inline void reset_alloc_baseline() { current_allocations = 0; }
 
+// ---------- UnComment the macros as you go on, this allows for partial submissions ----------///
 
+#define TEST_CASE_1
+#define TEST_CASE_2
+#define TEST_CASE_3
+#define TEST_CASE_4
+#define TEST_CASE_5
+#define TEST_CASE_6
+#define TEST_CASE_7
+#define TEST_CASE_8
+#define TEST_CASE_9
+#define TEST_CASE_10
+#define TEST_CASE_11
+#define TEST_CASE_12
+#define TEST_CASE_13
+#define TEST_CASE_14
+#define TEST_CASE_15
+#define TEST_CASE_16
+#define TEST_CASE_17
+#define TEST_CASE_18
+#define TEST_CASE_19
+#define TEST_CASE_20
 
-// ---------- UnComment the features as you finish implementing them, this allows partial submisions without crashing ----------///
+///---------------------- DO NOT TOUCH/MODIFY BELOW THIS LINE, IT'S FOR TESTING ----------------------///
 
-//Obviously some functions are interlinked
+void run1(), run2(), run3(), run4(), run5(), run6(), run7(), run8(), run9(), run10(), run11(), run12(), run13(), run14(), run15(), run16(), run17(), run18(), run19(), run20();
 
-// // ---------- LINKED LIST ----------
+int current_allocations = 0;
 
-// // constructors / destructors
-// #define LL_CTOR_DEFAULT
-// #define LL_DTOR
-// #define LL_CTOR_COPY
-// #define LL_CTOR_MOVE
-// #define LL_ASSIGN_COPY
-// #define LL_ASSIGN_MOVE
+void* operator new(size_t size) {
+    current_allocations++;
+    return malloc(size);
+}
+void* operator new[](size_t size) {
+    current_allocations++;
+    return malloc(size);
+}
+void operator delete(void* memory) noexcept {
+    current_allocations--;
+    free(memory);
+}
+void operator delete(void* memory, size_t size) noexcept {
+    current_allocations--;
+    free(memory);
+}
+void operator delete[](void* memory) noexcept {
+    current_allocations--;
+    free(memory);
+}
+void operator delete[](void* memory, size_t size) noexcept {
+    current_allocations--;
+    free(memory);
+}
 
-// // modifiers
-// #define LL_INSERT
-// #define LL_ERASE
-// #define LL_CLEAR
-
-// // access
-// #define LL_AT_CONST
-// #define LL_AT
-// #define LL_FIND
-
-// // utilities
-// #define LL_CONTAINS
-// #define LL_SIZE
-
-// // operators
-// #define LL_EQ
-// #define LL_NEQ
-
-
-// // ---------- HASH FUNCTOR ----------
-// #define FUNCTOR_INT
-// #define FUNCTOR_FLOAT
-// #define FUNCTOR_STRING
-
-
-// // ---------- HASH MAP ----------
-
-// // constructors / destructors
-// #define HM_CTOR
-// #define HM_DTOR
-// #define HM_ASSIGN_COPY
-// #define HM_ASSIGN_MOVE
-
-// // modifiers
-// #define HM_INSERT
-// #define HM_ERASE
-// #define HM_CLEAR
-
-// // access
-// #define HM_AT_CONST
-// #define HM_AT
-// #define HM_BRACKET   // operator[]
-// #define HM_CONTAINS
-
-// // utilities
-// #define HM_EMPTY
-// #define HM_SIZE
-
-// // operators
-// #define HM_EQ
-// #define HM_NEQ
+void check_memory_leak(){
+    if(current_allocations != 0){
+        std::cerr << "Memory Leak: " << current_allocations << " unfreed allocations!" << std::endl;
+        exit(1); 
+    }
+}
 
 int main(){
-
-#if defined(HM_CTOR) && defined(FUNCTOR_INT)
-    HashMap<5,int,int,HashFunctor<int>> h;
-#endif
-
-#ifdef LL_CTOR_DEFAULT
-    LinkedList<int,int> l;
-#endif
-
-    int q; 
-    if (!(std::cin >> q)) return 0;
-
-    while(q--){
-        std::string type, op;
-        std::cin >> type >> op;
-
-        // ==========================================
-        // ---------- LINKED LIST QUERIES -----------
-        // ==========================================
-        if(type == "LL"){
-
-            if(op == "insert"){
-                int k, v; 
-                std::cin >> k >> v; // Always consume input
-#if defined(LL_CTOR_DEFAULT) && defined(LL_INSERT)
-                l.insert(k, v);
-#else
-                std::cout << "LL insert not enabled\n";
-#endif
-            }
-
-            else if(op == "erase"){
-                int k; 
-                std::cin >> k; // Always consume input
-#if defined(LL_CTOR_DEFAULT) && defined(LL_ERASE)
-                l.erase(k);
-#else
-                std::cout << "LL erase not enabled\n";
-#endif
-            }
-
-            else if(op == "clear"){
-#if defined(LL_CTOR_DEFAULT) && defined(LL_CLEAR)
-                l.clear();
-#else
-                std::cout << "LL clear not enabled\n";
-#endif
-            }
-
-            else if(op == "at"){
-                int k; 
-                std::cin >> k; // Always consume input
-#if defined(LL_CTOR_DEFAULT) && defined(LL_AT)
-                std::cout << l.at(k) << "\n";
-#else
-                std::cout << "LL at not enabled\n";
-#endif
-            }
-
-            else if(op == "find"){
-                int k; 
-                std::cin >> k; // Always consume input
-#if defined(LL_CTOR_DEFAULT) && defined(LL_FIND)
-                auto p = l.find(k);
-                if(p) std::cout << *p << "\n";
-                else std::cout << "NOT FOUND\n";
-#else
-                std::cout << "LL find not enabled\n";
-#endif
-            }
-
-            else if(op == "contains"){
-                int k; 
-                std::cin >> k; // Always consume input
-#if defined(LL_CTOR_DEFAULT) && defined(LL_CONTAINS)
-                std::cout << (l.contains(k) ? "YES\n" : "NO\n");
-#else
-                std::cout << "LL contains not enabled\n";
-#endif
-            }
-
-            else if(op == "size"){
-#if defined(LL_CTOR_DEFAULT) && defined(LL_SIZE)
-                std::cout << l.size() << "\n";
-#else
-                std::cout << "LL size not enabled\n";
-#endif
-            }
-
-            else if(op == "compare"){
-#if defined(LL_CTOR_DEFAULT) && defined(LL_EQ) && defined(LL_CTOR_COPY)
-                LinkedList<int,int> other = l;
-                std::cout << (l == other ? "YES\n" : "NO\n");
-#else
-                std::cout << "LL compare/copy not enabled\n";
-#endif
-            }
-        }
-
-        // ==========================================
-        // ------------ HASH MAP QUERIES ------------
-        // ==========================================
-        else if(type == "HM"){
-
-            if(op == "insert"){
-                int k, v; 
-                std::cin >> k >> v; // Always consume input
-#if defined(HM_CTOR) && defined(FUNCTOR_INT) && defined(HM_INSERT)
-                h.insert(k, v);
-#else
-                std::cout << "HM insert not enabled\n";
-#endif
-            }
-
-            else if(op == "erase"){
-                int k; 
-                std::cin >> k; // Always consume input
-#if defined(HM_CTOR) && defined(FUNCTOR_INT) && defined(HM_ERASE)
-                h.erase(k);
-#else
-                std::cout << "HM erase not enabled\n";
-#endif
-            }
-
-            else if(op == "clear"){
-#if defined(HM_CTOR) && defined(FUNCTOR_INT) && defined(HM_CLEAR)
-                h.clear();
-#else
-                std::cout << "HM clear not enabled\n";
-#endif
-            }
-
-            else if(op == "at"){
-                int k; 
-                std::cin >> k; // Always consume input
-#if defined(HM_CTOR) && defined(FUNCTOR_INT) && defined(HM_AT)
-                std::cout << h.at(k) << "\n";
-#else
-                std::cout << "HM at not enabled\n";
-#endif
-            }
-            
-            else if(op == "bracket"){
-                int k, v; 
-                std::cin >> k >> v; // Always consume input
-#if defined(HM_CTOR) && defined(FUNCTOR_INT) && defined(HM_BRACKET)
-                h[k] = v;
-#else
-                std::cout << "HM bracket not enabled\n";
-#endif
-            }
-
-            else if(op == "contains"){
-                int k; 
-                std::cin >> k; // Always consume input
-#if defined(HM_CTOR) && defined(FUNCTOR_INT) && defined(HM_CONTAINS)
-                std::cout << (h.contains(k) ? "YES\n" : "NO\n");
-#else
-                std::cout << "HM contains not enabled\n";
-#endif
-            }
-
-            else if(op == "empty"){
-#if defined(HM_CTOR) && defined(FUNCTOR_INT) && defined(HM_EMPTY)
-                std::cout << (h.empty() ? "YES\n" : "NO\n");
-#else
-                std::cout << "HM empty not enabled\n";
-#endif
-            }
-
-            else if(op == "size"){
-#if defined(HM_CTOR) && defined(FUNCTOR_INT) && defined(HM_SIZE)
-                std::cout << h.size() << "\n";
-#else
-                std::cout << "HM size not enabled\n";
-#endif
-            }
-
-            else if(op == "compare"){
-#if defined(HM_CTOR) && defined(FUNCTOR_INT) && defined(HM_EQ) && defined(HM_ASSIGN_COPY)
-                HashMap<5,int,int,HashFunctor<int>> other = h;
-                std::cout << (h == other ? "YES\n" : "NO\n");
-#else
-                std::cout << "HM compare/copy not enabled\n";
-#endif
+    int t;
+    if (std::cin >> t) {
+        {
+            switch(t){
+                case 1: run1(); break;
+                case 2: run2(); break;
+                case 3: run3(); break;
+                case 4: run4(); break;
+                case 5: run5(); break;
+                case 6: run6(); break;
+                case 7: run7(); break;
+                case 8: run8(); break;
+                case 9: run9(); break;
+                case 10: run10(); break;
+                case 11: run11(); break;
+                case 12: run12(); break;
+                case 13: run13(); break;
+                case 14: run14(); break;
+                case 15: run15(); break;
+                case 16: run16(); break;
+                case 17: run17(); break;
+                case 18: run18(); break;
+                case 19: run19(); break;
+                case 20: run20(); break;
+                default: break;
             }
         }
     }
+
+    std::cout << std::flush;
+    std::cerr << std::flush;
+    check_memory_leak();
     return 0;
+}
+
+void run1() {
+#ifdef TEST_CASE_1
+    reset_alloc_baseline();
+    LinkedList<std::string,TestClass> sll;
+    LinkedList<int,TestClass> ill;
+    LinkedList<float,TestClass> fll;
+#else
+    std::cerr << "testcase1 not being used" << std::endl;
+    exit(1);
+#endif
+}
+
+void run2() {
+#ifdef TEST_CASE_2
+    reset_alloc_baseline();
+    LinkedList<int,TestClass> ill;
+    int q;
+    std::cin >> q;
+    while(q--){
+        int key, value;
+        std::cin >> key >> value;
+        ill.insert(key, TestClass(value));
+    }
+    std::cout<<ill.size()<<std::endl;
+#else
+    std::cerr << "testcase2 not being used" << std::endl;
+    exit(1);
+#endif
+}
+
+void run3() {
+#ifdef TEST_CASE_3
+    reset_alloc_baseline();
+    LinkedList<int,TestClass> ill;
+    int q;
+    std::cin >> q;
+    int last_key = -1;
+    while(q--){
+        int key, value;
+        std::cin >> key >> value;
+        ill.insert(key, TestClass(value));
+        last_key = key;
+    }
+    std::cout << "Size: " << ill.size() << std::endl;
+    if (last_key != -1) {
+        try {
+            std::cout << "Last Key Value: " << ill.at(last_key).get_val() << std::endl;
+        } catch (...) {}
+    }
+#else
+    std::cerr << "testcase3 not being used" << std::endl;
+    exit(1);
+#endif
+}
+
+void run4() {
+#ifdef TEST_CASE_4
+    reset_alloc_baseline();
+    LinkedList<int,TestClass> ill;
+    int q;
+    std::cin >> q;
+    while (q--){
+        std::string op; int key;
+        std::cin >> op >> key;
+        if(op == "insert"){
+            int value;
+            std::cin >> value;
+            ill.insert(key, TestClass(value));
+        } else if(op == "erase"){
+            ill.erase(key);
+        }
+    }
+#else
+    std::cerr << "testcase4 not being used" << std::endl;
+    exit(1);
+#endif
+}
+
+void run5() {
+#ifdef TEST_CASE_5
+    reset_alloc_baseline();
+    LinkedList<std::string,TestClass> sll;
+    int q;
+    std::cin>>q;
+    while (q--){
+        std::string op, key;
+        std::cin >> op >> key;
+        if(op == "insert"){
+            int value;
+            std::cin >> value;
+            sll.insert(key, TestClass(value));
+        } else if(op == "erase"){
+            sll.erase(key);
+        }
+    }
+#else
+    std::cerr << "testcase5 not being used" << std::endl;
+    exit(1);
+#endif
+}
+
+void run6() {
+#ifdef TEST_CASE_6
+    reset_alloc_baseline();
+    LinkedList<std::string,int> sll;
+    int q;
+    std::cin >> q;
+    while(q--){
+        std::string op, key;
+        int value;
+        std::cin >> op >> key >> value;
+        if(op == "insert"){
+            sll.insert(key, value);
+        } else if(op == "find"){
+            int* res = sll.find(key);
+            if(res) std::cout << *res << ": Found\n";
+            else std::cout << "NULL: Found\n";
+        } else if(op == "at"){
+            try {
+                std::cout << sll.at(key) << ": Found\n";
+            } catch (...) {
+                std::cout << "ERROR: KEY NOT FOUND\n";
+            }
+        }
+    }
+#else
+    std::cerr << "testcase6 not being used" << std::endl;
+    exit(1);
+#endif
+}
+
+void run7() {
+#ifdef TEST_CASE_7
+    reset_alloc_baseline();
+    LinkedList<std::string,int> sll;
+    int q;
+    std::cin >> q;
+    while(q--){
+        std::string op, key;
+        int value;
+        std::cin >> op >> key >> value;
+        if(op == "insert"){
+            sll.insert(key, value);
+        } else if(op == "find"){
+            int* res = sll.find(key);
+            if(res) std::cout << *res << ": Found\n";
+            else std::cout << "NULL: Found\n";
+        } else if(op == "at"){
+            try {
+                std::cout << sll.at(key) << ": Found\n";
+            } catch (...) {
+                std::cout << "ERROR: KEY NOT FOUND\n";
+            }
+        } else if(op == "replace"){
+            try {
+                sll.at(key) = value;
+                std::cout << "Replaced\n";
+            } catch (...) {
+                std::cout << "ERROR: KEY NOT FOUND\n";
+            }
+        }
+    }
+#else
+    std::cerr << "testcase7 not being used" << std::endl;
+    exit(1);
+#endif
+}
+
+void run8() {
+#ifdef TEST_CASE_8
+    reset_alloc_baseline();
+    LinkedList<int,TestClass> a,b;
+    int q;
+    std::cin>>q;
+    while(q--){
+        std::string op;
+        std::cin>>op;
+        if(op == "insert"){
+            int key, value;
+            std::cin>>key>>value;
+            b.insert(key, TestClass(value));
+        }else if(op == "copy"){
+            a = b;
+        } else if(op == "move"){
+            a = std::move(b);
+        } else if(op == "clear"){
+            a.clear();
+        } else if(op == "erase"){
+            int key;
+            std::cin>>key;
+            a.erase(key);
+        } else if(op == "find"){
+            int key;
+            std::cin>>key;
+            TestClass* res = a.find(key);
+            if(res) std::cout << res->get_val() << ": Found\n";
+            else std::cout << "NULL: Found\n";
+        }
+    }
+#else
+    std::cerr << "testcase8 not being used" << std::endl;
+    exit(1);
+#endif
+}
+
+void run9() {
+#ifdef TEST_CASE_9
+    reset_alloc_baseline();
+    LinkedList<int,TestClass> a,b;
+    int q;
+    std::cin>>q;
+    while(q--){
+        std::string op;
+        std::cin>>op;
+        if(op == "insert"){
+            int key, value;
+            std::cin>>key>>value;
+            b.insert(key, TestClass(value));
+        }else if(op == "copy"){
+            a = b;
+        } else if(op == "move"){
+            a = std::move(b);
+        } else if(op == "clear"){
+            a.clear();
+        } else if(op == "erase"){
+            int key;
+            std::cin>>key;
+            a.erase(key);
+        } else if(op == "find"){
+            int key;
+            std::cin>>key;
+            TestClass* res = a.find(key);
+            if(res) std::cout << res->get_val() << ": Found\n";
+            else std::cout << "NULL: Found\n";
+        } else if(op == "equal"){
+            if(a == b) std::cout << "Equal\n";
+            else std::cout << "Not Equal\n";
+        }
+    }
+#else
+    std::cerr << "testcase9 not being used" << std::endl;
+    exit(1);
+#endif
+}
+
+void run10() {
+#ifdef TEST_CASE_10
+    reset_alloc_baseline();
+    HashMap<5, int, TestClass, HashFunctor<int>> hm;
+    int q;
+    std::cin >> q;
+    while(q--) {
+        std::string op;
+        std::cin >> op;
+        if(op == "insert") {
+            int key, value;
+            std::cin >> key >> value;
+            hm.insert(key, TestClass(value));
+        } else if(op == "size") {
+            std::cout << "Size: " << hm.size() << "\n";
+        } else if(op == "empty") {
+            std::cout << (hm.empty() ? "Empty\n" : "Not Empty\n");
+        } else if(op == "contains") {
+            int key;
+            std::cin >> key;
+            std::cout << (hm.contains(key) ? "Contains\n" : "Does Not Contain\n");
+        }
+    }
+#else
+    std::cerr << "testcase10 not being used" << std::endl;
+    exit(1);
+#endif
+}
+
+void run11() {
+#ifdef TEST_CASE_11
+    reset_alloc_baseline();
+    HashMap<10, std::string, TestClass, HashFunctor<std::string>> hm;
+    int q;
+    std::cin >> q;
+    std::string last_key = "";
+    while(q--) {
+        std::string key;
+        int value;
+        std::cin >> key >> value;
+        hm.insert(key, TestClass(value));
+        last_key = key;
+    }
+    std::cout << "Size: " << hm.size() << "\n";
+    if (!last_key.empty()) {
+        try {
+            std::cout << "Last Key Value: " << hm.at(last_key).get_val() << "\n";
+        } catch (...) {}
+    }
+#else
+    std::cerr << "testcase11 not being used" << std::endl;
+    exit(1);
+#endif
+}
+
+void run12() {
+#ifdef TEST_CASE_12
+    reset_alloc_baseline();
+    HashMap<10, int, TestClass, HashFunctor<int>> hm;
+    int q;
+    std::cin >> q;
+    while(q--) {
+        std::string op;
+        std::cin >> op;
+        if(op == "insert") {
+            int key, value;
+            std::cin >> key >> value;
+            hm.insert(key, TestClass(value));
+        } else if(op == "erase") {
+            int key;
+            std::cin >> key;
+            hm.erase(key);
+        } else if(op == "clear") {
+            hm.clear();
+        } else if(op == "size") {
+            std::cout << "Size: " << hm.size() << "\n";
+        }
+    }
+#else
+    std::cerr << "testcase12 not being used" << std::endl;
+    exit(1);
+#endif
+}
+
+void run13() {
+#ifdef TEST_CASE_13
+    reset_alloc_baseline();
+    HashMap<10, std::string, TestClass, HashFunctor<std::string>> hm;
+    int q;
+    std::cin >> q;
+    while(q--) {
+        std::string op, key;
+        std::cin >> op >> key;
+        if(op == "insert") {
+            int value;
+            std::cin >> value;
+            hm.insert(key, TestClass(value));
+        } else if(op == "at") {
+            try {
+                std::cout << hm.at(key).get_val() << ": Found\n";
+            } catch (...) {
+                std::cout << "ERROR: KEY NOT FOUND\n";
+            }
+        } else if(op == "replace") {
+            try {
+                int value;
+                std::cin >> value;
+                hm.at(key) = TestClass(value);
+                std::cout << "Replaced\n";
+            } catch (...) {
+                std::cout << "ERROR: KEY NOT FOUND\n";
+            }
+        }
+    }
+#else
+    std::cerr << "testcase13 not being used" << std::endl;
+    exit(1);
+#endif
+}
+
+void run14() {
+#ifdef TEST_CASE_14
+    reset_alloc_baseline();
+    HashMap<5, int, TestClass, HashFunctor<int>> hm;
+    int q;
+    std::cin >> q;
+    while(q--) {
+        std::string op;
+        int key;
+        std::cin >> op >> key;
+        if(op == "read") {
+            std::cout << "Read Value: " << hm[key].get_val() << "\n";
+        } else if(op == "write") {
+            int val;
+            std::cin >> val;
+            hm[key] = TestClass(val);
+        } else if(op == "size") {
+            std::cout << "Size: " << hm.size() << "\n";
+        }
+    }
+#else
+    std::cerr << "testcase14 not being used" << std::endl;
+    exit(1);
+#endif
+}
+
+void run15() {
+#ifdef TEST_CASE_15
+    reset_alloc_baseline();
+    HashMap<5, int, TestClass, HashFunctor<int>> a, b;
+    int q;
+    std::cin >> q;
+    while(q--) {
+        std::string op;
+        std::cin >> op;
+        if(op == "insert") {
+            int key, value;
+            std::cin >> key >> value;
+            b.insert(key, TestClass(value));
+        } else if(op == "copy") {
+            a = b;
+        } else if(op == "erase_b") {
+            int key;
+            std::cin >> key;
+            b.erase(key);
+        } else if(op == "contains_a") {
+            int key;
+            std::cin >> key;
+            std::cout << (a.contains(key) ? "A Contains\n" : "A Missing\n");
+        }
+    }
+#else
+    std::cerr << "testcase15 not being used" << std::endl;
+    exit(1);
+#endif
+}
+
+void run16() {
+#ifdef TEST_CASE_16
+    reset_alloc_baseline();
+    HashMap<5, int, TestClass, HashFunctor<int>> a, b;
+    int q;
+    std::cin >> q;
+    while(q--) {
+        std::string op;
+        std::cin >> op;
+        if(op == "insert") {
+            int key, value;
+            std::cin >> key >> value;
+            b.insert(key, TestClass(value));
+        } else if(op == "move") {
+            a = std::move(b);
+        } else if(op == "size_a") {
+            std::cout << "A Size: " << a.size() << "\n";
+        } else if(op == "size_b") {
+            std::cout << "B Size: " << b.size() << "\n";
+        }
+    }
+#else
+    std::cerr << "testcase16 not being used" << std::endl;
+    exit(1);
+#endif
+}
+
+void run17() {
+#ifdef TEST_CASE_17
+    reset_alloc_baseline();
+    HashMap<5, int, TestClass, HashFunctor<int>> a, b;
+    int q;
+    std::cin >> q;
+    while(q--) {
+        std::string op;
+        std::cin >> op;
+        if(op == "insert_a") {
+            int key, value;
+            std::cin >> key >> value;
+            a.insert(key, TestClass(value));
+        } else if(op == "insert_b") {
+            int key, value;
+            std::cin >> key >> value;
+            b.insert(key, TestClass(value));
+        } else if(op == "equal") {
+            if(a == b) std::cout << "Equal\n";
+            else std::cout << "Not Equal\n";
+        } else if(op == "not_equal") {
+            if(a != b) std::cout << "Not Equal\n";
+            else std::cout << "Equal\n";
+        }
+    }
+#else
+    std::cerr << "testcase17 not being used" << std::endl;
+    exit(1);
+#endif
+}
+
+void run18() {
+#ifdef TEST_CASE_18
+    reset_alloc_baseline();
+    HashMap<2, int, TestClass, HashFunctor<int>> hm;
+    int q;
+    std::cin >> q;
+    while(q--) {
+        std::string op;
+        std::cin >> op;
+        if(op == "insert") {
+            int key, value;
+            std::cin >> key >> value;
+            hm.insert(key, TestClass(value));
+        } else if(op == "erase") {
+            int key;
+            std::cin >> key;
+            hm.erase(key);
+        } else if(op == "contains") {
+            int key;
+            std::cin >> key;
+            std::cout << (hm.contains(key) ? "Contains\n" : "Missing\n");
+        } else if(op == "size") {
+            std::cout << "Size: " << hm.size() << "\n";
+        }
+    }
+#else
+    std::cerr << "testcase18 not being used" << std::endl;
+    exit(1);
+#endif
+}
+
+void run19() {
+#ifdef TEST_CASE_19
+    reset_alloc_baseline();
+    HashMap<7, float, TestClass, HashFunctor<float>> hm;
+    int q;
+    std::cin >> q;
+    while(q--) {
+        std::string op;
+        std::cin >> op;
+        if(op == "insert") {
+            float key; int value;
+            std::cin >> key >> value;
+            hm.insert(key, TestClass(value));
+        } else if(op == "contains") {
+            float key;
+            std::cin >> key;
+            std::cout << (hm.contains(key) ? "Contains\n" : "Missing\n");
+        }
+    }
+#else
+    std::cerr << "testcase19 not being used" << std::endl;
+    exit(1);
+#endif
+}
+
+void run20() {
+#ifdef TEST_CASE_20
+    reset_alloc_baseline();
+    HashMap<11, std::string, TestClass, HashFunctor<std::string>> a, b;
+    int q;
+    std::cin >> q;
+    while(q--) {
+        std::string op;
+        std::cin >> op;
+        if(op == "insert") {
+            std::string key; int val;
+            std::cin >> key >> val;
+            a.insert(key, TestClass(val));
+        } else if(op == "erase") {
+            std::string key;
+            std::cin >> key;
+            a.erase(key);
+        } else if(op == "copy") {
+            b = a;
+        } else if(op == "clear") {
+            a.clear();
+        } else if(op == "equal") {
+            std::cout << (a == b ? "Equal\n" : "Not Equal\n");
+        }
+    }
+#else
+    std::cerr << "testcase20 not being used" << std::endl;
+    exit(1);
+#endif
 }
