@@ -19,7 +19,7 @@ The `LinkedList` class serves as the collision chain for your hash map buckets. 
 * `operator=(LinkedList &&other)`: Move assignment operator.
 
 #### Modifiers
-* `insert(key, value)`: Inserts a new key-value pair or updates the value if the key already exists.
+* `insert(key, value)`: Inserts a new key-value pair.
 * `erase(key)`: Removes the node containing the key and safely frees its memory.
 * `clear()`: Deletes all nodes and resets the list to an empty state.
 
@@ -52,7 +52,7 @@ The `HashMap` class manages an array of `LinkedList` buckets of fixed size `N` u
 * `operator=(const HashMap &other)` `operator=(HashMap &&other)`: Copy and Move Operator ¯\_(ツ)_/¯
 
 #### Modifiers
-* `insert(key, value)`: Hashes the key, finds the correct bucket, and inserts the pair.
+* `insert(key, value)`: Hashes the key, finds the correct bucket, and inserts the pair as per std requirements.
 * `erase(key)`: Hashes the key and removes it from the corresponding bucket.
 * `clear()`: Clears all buckets in the array.
 

@@ -1,4 +1,3 @@
-
 #include <cstddef>
 #include <iostream>
 #include <string>
@@ -75,9 +74,6 @@ private:
 ///-------------------------------- DO NOT LOOK ABOVE THIS LINE, IT'S FOR TESTING --------------------------------///
 ///------------------ IF YOU DO SO MEDUSA WILL COME TO YOU IN YOUR DREAMS AND TURN TO STONE :D ------------------///
 
-/// THE 3 CLASSES BELOW IS THE TEMPLATE DECLARATION OF THE CLASSES, FUNCTORS WE EXPECT YOU TO IMPLEMENT
-/// READ UPON THE RESOURCES PROVIDED AND DO THE IMPLEMENTATION
-
 template <typename KeyType, typename ValueType>
 class LinkedList{
 public:
@@ -143,7 +139,6 @@ private:
     Bucket buckets[N];
 };
 
-// IMPLEMENT HASH FUNCTIONS FOR INT, FLOAT AND STRING
 template<typename T>
 class HashFunctor{
 public:
@@ -153,269 +148,36 @@ public:
 ///---------------------- DO NOT TOUCH/MODIFY ABOVE THIS LINE, IT'S FOR YOUR REFERENCE ----------------------///
 ///------------------ IF YOU DO SO THE CURSE OF KING MIDUS WILL TURN IT INTO BROKEN CODE :P------------------///
 
-// ============================================================
-//  WRITE YOUR IMPLEMENTATION BELOW THIS LINE
-// ============================================================
 
-// Convenience macros (feel free to use or remove)
-#define LIST         LinkedList<KeyType, ValueType>
-#define TEMPLATE     template<typename KeyType, typename ValueType>
-#define MAP          HashMap<N, KeyType, ValueType, HashFunc>
-#define TEMPLATE_MAP template<size_t N, typename KeyType, typename ValueType, typename HashFunc>
 
-// ------------------------------------------------------------
-//  LinkedList Implementation
-// ------------------------------------------------------------
+// ---------- UnComment the macros as you go on, this allows for partial submissions ----------///
+// #define TEST_CASE_1
+// #define TEST_CASE_2
+// #define TEST_CASE_3
+// #define TEST_CASE_4
+// #define TEST_CASE_5
+// #define TEST_CASE_6
+// #define TEST_CASE_7
+// #define TEST_CASE_8
+// #define TEST_CASE_9
+// #define TEST_CASE_10
+// #define TEST_CASE_11
+// #define TEST_CASE_12
+// #define TEST_CASE_13
+// #define TEST_CASE_14
+// #define TEST_CASE_15
+// #define TEST_CASE_16
+// #define TEST_CASE_17
+// #define TEST_CASE_18
+// #define TEST_CASE_19
+// #define TEST_CASE_20
 
-TEMPLATE
-LIST::LinkedList() {
-    // TODO
-}
-
-TEMPLATE
-LIST::~LinkedList() {
-    // TODO
-}
-
-TEMPLATE
-LIST::LinkedList(const LinkedList &other) {
-    // TODO
-}
-
-TEMPLATE
-LIST::LinkedList(LinkedList &&other) noexcept {
-    // TODO
-}
-
-TEMPLATE
-LIST &LIST::operator=(const LinkedList &other) {
-    // TODO
-    return *this;
-}
-
-TEMPLATE
-LIST &LIST::operator=(LinkedList &&other) noexcept {
-    // TODO
-    return *this;
-}
-
-TEMPLATE
-void LIST::insert(const KeyType &key, const ValueType &value) {
-    // TODO
-}
-
-TEMPLATE
-void LIST::erase(const KeyType &key) {
-    // TODO
-}
-
-TEMPLATE
-void LIST::clear() {
-    // TODO
-}
-
-TEMPLATE
-const ValueType &LIST::at(const KeyType &key) const {
-    // TODO
-    throw std::out_of_range("Key not found");
-}
-
-TEMPLATE
-ValueType &LIST::at(const KeyType &key) {
-    // TODO
-    throw std::out_of_range("Key not found");
-}
-
-TEMPLATE
-ValueType *LIST::find(const KeyType &key) {
-    // TODO
-    return nullptr;
-}
-
-TEMPLATE
-bool LIST::contains(const KeyType &key) const {
-    // TODO
-    return false;
-}
-
-TEMPLATE
-size_t LIST::size() const {
-    // TODO
-    return 0;
-}
-
-TEMPLATE
-bool LIST::operator==(const LinkedList &other) const {
-    // TODO
-    return false;
-}
-
-TEMPLATE
-bool LIST::operator!=(const LinkedList &other) const {
-    return !(*this == other);
-}
-
-// ------------------------------------------------------------
-//  HashFunctor Specialisations
-// ------------------------------------------------------------
-
-template<>
-class HashFunctor<int> {
-public:
-    size_t operator()(int key) const {
-        // TODO
-        return 0;
-    }
-};
-
-template<>
-class HashFunctor<float> {
-public:
-    size_t operator()(float key) const {
-        // TODO
-        return 0;
-    }
-};
-
-template<>
-class HashFunctor<std::string> {
-public:
-    size_t operator()(const std::string &key) const {
-        // TODO
-        return 0;
-    }
-};
-
-// ------------------------------------------------------------
-//  HashMap Implementation
-// ------------------------------------------------------------
-
-TEMPLATE_MAP
-MAP::HashMap() {
-    // TODO
-}
-
-TEMPLATE_MAP
-MAP::~HashMap() {
-    // TODO
-}
-
-TEMPLATE_MAP
-MAP &MAP::operator=(const HashMap &other) {
-    // TODO
-    return *this;
-}
-
-TEMPLATE_MAP
-MAP &MAP::operator=(HashMap &&other) noexcept {
-    // TODO
-    return *this;
-}
-
-TEMPLATE_MAP
-void MAP::insert(const KeyType &key, const ValueType &value) {
-    // TODO
-}
-
-TEMPLATE_MAP
-void MAP::erase(const KeyType &key) {
-    // TODO
-}
-
-TEMPLATE_MAP
-void MAP::clear() {
-    // TODO
-}
-
-TEMPLATE_MAP
-const ValueType &MAP::at(const KeyType &key) const {
-    // TODO
-    throw std::out_of_range("Key not found");
-}
-
-TEMPLATE_MAP
-ValueType &MAP::at(const KeyType &key) {
-    // TODO
-    throw std::out_of_range("Key not found");
-}
-
-TEMPLATE_MAP
-ValueType &MAP::operator[](const KeyType &key) {
-    // TODO
-    static ValueType dummy{};
-    return dummy;
-}
-
-TEMPLATE_MAP
-bool MAP::contains(const KeyType &key) const {
-    // TODO
-    return false;
-}
-
-TEMPLATE_MAP
-bool MAP::empty() const {
-    return size() == 0;
-}
-
-TEMPLATE_MAP
-size_t MAP::size() const {
-    // TODO
-    return 0;
-}
-
-TEMPLATE_MAP
-bool MAP::operator==(const HashMap &other) const {
-    // TODO
-    return false;
-}
-
-TEMPLATE_MAP
-bool MAP::operator!=(const HashMap &other) const {
-    return !(*this == other);
-}
-
-// ============================================================
-//  Cleanup macros
-// ============================================================
-
-#undef LIST
-#undef TEMPLATE
-#undef MAP
-#undef TEMPLATE_MAP
-
-// ============================================================
-//  Allocation baseline reset 
-//  — do not remove these two lines —
-// ============================================================
+///---------------------- DO NOT TOUCH/MODIFY BELOW THIS LINE, IT'S FOR HACKERRANK TESTING ----------------------///
+///------------------ IF YOU DO SO THE CURSE OF KING MIDUS WILL TURN IT INTO BROKEN CODE :P------------------///
 
 
 extern int current_allocations;
 inline void reset_alloc_baseline() { current_allocations = 0; }
-
-// ---------- UnComment the macros as you go on, this allows for partial submissions ----------///
-
-#define TEST_CASE_1
-#define TEST_CASE_2
-#define TEST_CASE_3
-#define TEST_CASE_4
-#define TEST_CASE_5
-#define TEST_CASE_6
-#define TEST_CASE_7
-#define TEST_CASE_8
-#define TEST_CASE_9
-#define TEST_CASE_10
-#define TEST_CASE_11
-#define TEST_CASE_12
-#define TEST_CASE_13
-#define TEST_CASE_14
-#define TEST_CASE_15
-#define TEST_CASE_16
-#define TEST_CASE_17
-#define TEST_CASE_18
-#define TEST_CASE_19
-#define TEST_CASE_20
-
-///---------------------- DO NOT TOUCH/MODIFY BELOW THIS LINE, IT'S FOR TESTING ----------------------///
 
 void run1(), run2(), run3(), run4(), run5(), run6(), run7(), run8(), run9(), run10(), run11(), run12(), run13(), run14(), run15(), run16(), run17(), run18(), run19(), run20();
 
@@ -599,7 +361,7 @@ void run6() {
     while(q--){
         std::string op, key;
         int value;
-        std::cin >> op >> key >> value;
+        std::cin >> op >> key >> value;   // always read all 3 tokens (dummy 0 for find/at)
         if(op == "insert"){
             sll.insert(key, value);
         } else if(op == "find"){
@@ -620,6 +382,7 @@ void run6() {
 #endif
 }
 
+// *** FIXED: always read 3 tokens (dummy 0 present for find/at in actual test input) ***
 void run7() {
 #ifdef TEST_CASE_7
     reset_alloc_baseline();
@@ -629,7 +392,7 @@ void run7() {
     while(q--){
         std::string op, key;
         int value;
-        std::cin >> op >> key >> value;
+        std::cin >> op >> key >> value;   // always read all 3 tokens
         if(op == "insert"){
             sll.insert(key, value);
         } else if(op == "find"){
@@ -727,7 +490,7 @@ void run9() {
             if(a == b) std::cout << "Equal\n";
             else std::cout << "Not Equal\n";
         }
-    }
+    }  
 #else
     std::cerr << "testcase9 not being used" << std::endl;
     exit(1);
