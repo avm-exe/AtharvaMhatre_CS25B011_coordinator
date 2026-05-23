@@ -326,22 +326,22 @@ size_t LinkedList<KeyType, ValueType>::size() const
 template <size_t N, typename KeyType, typename ValueType, typename HashFunc>
 class HashMap{
 public:
-    HashMap();
-    ~HashMap();
+    HashMap();                                                  //done
+    ~HashMap();                                                 //done
 
-    HashMap &operator=(const HashMap &other);
-    HashMap &operator=(HashMap &&other) noexcept;
+    HashMap &operator=(const HashMap &other);                   //done
+    HashMap &operator=(HashMap &&other) noexcept;               //done
 
-    void insert(const KeyType &key, const ValueType &value);
-    void erase(const KeyType &key);
-    void clear();
+    void insert(const KeyType &key, const ValueType &value);    //done
+    void erase(const KeyType &key);                             //done   
+    void clear();                                               //done
 
-    const ValueType &at(const KeyType &key) const;
-    ValueType &at(const KeyType &key);
-    ValueType &operator[](const KeyType &key);
+    const ValueType &at(const KeyType &key) const;              //done
+    ValueType &at(const KeyType &key);                          //done
+    ValueType &operator[](const KeyType &key);                  //done
 
-    bool operator==(const HashMap &other) const;
-    bool operator!=(const HashMap &other) const;
+    bool operator==(const HashMap &other) const;                //done
+    bool operator!=(const HashMap &other) const;                //done
 
     [[nodiscard]] bool contains(const KeyType &key) const;
     [[nodiscard]] bool empty() const;
@@ -352,6 +352,121 @@ private:
     using Bucket = LinkedList<KeyType, ValueType>;
     Bucket buckets[N];
 };
+
+template <size_t N, typename KeyType, typename ValueType, typename HashFunc>  //auto called as elements have predefined constructor
+HashMap<N, KeyType, ValueType, HashFunc>::HashMap() {}
+
+template <size_t N, typename KeyType, typename ValueType, typename HashFunc>  //auto called as elements have predefined destructor
+HashMap<N, KeyType, ValueType, HashFunc>::~HashMap() {}
+
+template <size_t N, typename KeyType, typename ValueType, typename HashFunc>
+HashMap<N, KeyType, ValueType, HashFunc>& HashMap<N, KeyType, ValueType, HashFunc>::operator=(const HashMap &other) //copy
+{
+    for (size_t i = 0; i<N; i++)
+    {
+        buckets[i]=other.buckets[i];
+    }
+    return *this;
+}
+
+template <size_t N, typename KeyType, typename ValueType, typename HashFunc>
+HashMap<N, KeyType, ValueType, HashFunc>& HashMap<N, KeyType, ValueType, HashFunc>::operator=(HashMap &&other) noexcept   //move
+{
+    for (size_t i = 0; i<N; i++)
+    {
+        buckets[i]=std::move(other.buckets[i]);
+    }
+    return *this;
+}
+
+template <size_t N, typename KeyType, typename ValueType, typename HashFunc>
+void HashMap<N, KeyType, ValueType, HashFunc>::insert(const KeyType &key, const ValueType &value)
+{
+    size_t ind = hash(key)%N;
+    buckets[ind].insert(key,value);
+}
+
+template <size_t N, typename KeyType, typename ValueType, typename HashFunc>
+void HashMap<N, KeyType, ValueType, HashFunc>::erase(const KeyType &key)
+{
+    size_t ind = hash(key)%N;
+    buckets[ind].erase(key);
+}
+
+template <size_t N, typename KeyType, typename ValueType, typename HashFunc>
+void HashMap<N, KeyType, ValueType, HashFunc>::clear()
+{
+    for (size_t i = 0; i<N; i++)
+    {
+        buckets[i].clear();
+    }
+}
+
+template <size_t N, typename KeyType, typename ValueType, typename HashFunc>
+const ValueType& HashMap<N, KeyType, ValueType, HashFunc>::at(const KeyType &key) const
+{
+    size_t ind = hash(key)%N;
+    return buckets[ind].at(key);
+}
+
+template <size_t N, typename KeyType, typename ValueType, typename HashFunc>
+ValueType& HashMap<N, KeyType, ValueType, HashFunc>::at(const KeyType &key)
+{
+    size_t ind = hash(key)%N;
+    return buckets[ind].at(key);
+}
+
+template <size_t N, typename KeyType, typename ValueType, typename HashFunc>
+ValueType& HashMap<N, KeyType, ValueType, HashFunc>::operator[](const KeyType &key)
+{
+    size_t ind = hash(key)%N;  
+    if (buckets[ind].contains(key)) return buckets[ind].at(key);
+    else
+    {
+        buckets[ind].insert(key, ValueType{});
+        return buckets[ind].at(key);
+    }
+}
+
+template <size_t N, typename KeyType, typename ValueType, typename HashFunc>
+bool HashMap<N, KeyType, ValueType, HashFunc>::operator==(const HashMap &other) const
+{
+    for (size_t i = 0; i<N; i++)
+    {
+        if (buckets[i] != other.buckets[i]) return false;
+    }
+    return true;
+}
+
+template <size_t N, typename KeyType, typename ValueType, typename HashFunc>
+bool HashMap<N, KeyType, ValueType, HashFunc>::operator!=(const HashMap &other) const
+{
+    return (!(*this == other));
+}
+
+template <size_t N, typename KeyType, typename ValueType, typename HashFunc>
+bool HashMap<N, KeyType, ValueType, HashFunc>::contains(const KeyType &key) const
+{
+    size_t ind = hash(key)%N;
+    return buckets[ind].contains(key);
+}
+
+template<size_t N, typename KeyType, typename ValueType, typename HashFunc>
+bool HashMap<N, KeyType, ValueType, HashFunc>::empty() const 
+{
+    return size() == 0;
+}
+
+template<size_t N, typename KeyType, typename ValueType, typename HashFunc>
+size_t HashMap<N, KeyType, ValueType, HashFunc>::size() const    
+{
+    size_t total = 0;
+    for (size_t i = 0; i<N; i++)
+    {
+        total += buckets[i].size();
+    }
+    return total;
+}
 
 template<typename T>
 class HashFunctor{
