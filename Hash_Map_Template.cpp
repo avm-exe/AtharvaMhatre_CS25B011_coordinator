@@ -77,30 +77,31 @@ private:
 template <typename KeyType, typename ValueType>
 class LinkedList{
 public:
-    LinkedList();
-    ~LinkedList();
+    LinkedList();                                            //done
+    ~LinkedList();                                           //done
 
-    LinkedList(const LinkedList &other);
-    LinkedList(LinkedList &&other) noexcept;
-    LinkedList &operator=(const LinkedList &other);
-    LinkedList &operator=(LinkedList &&other) noexcept;
+    LinkedList(const LinkedList &other);                     //done
+    LinkedList(LinkedList &&other) noexcept;                 //done
+    LinkedList &operator=(const LinkedList &other);          //done
+    LinkedList &operator=(LinkedList &&other) noexcept;      //done
 
-    void insert(const KeyType &key, const ValueType &value);
-    void erase(const KeyType &key);
-    void clear();
+    void insert(const KeyType &key, const ValueType &value); //done
+    void erase(const KeyType &key);                          //done
+    void clear();                                            //done
 
-    const ValueType &at(const KeyType &key) const;
-    ValueType &at(const KeyType &key);
-    ValueType *find(const KeyType &key);
+    const ValueType &at(const KeyType &key) const;           //done
+    ValueType &at(const KeyType &key);                       //done
+    ValueType *find(const KeyType &key);                     //done
 
-    bool operator==(const LinkedList &other) const;
-    bool operator!=(const LinkedList &other) const;
+    bool operator==(const LinkedList &other) const;          //done
+    bool operator!=(const LinkedList &other) const;          //done
 
-    [[nodiscard]] bool contains(const KeyType &key) const;
-    [[nodiscard]] size_t size() const;
+    [[nodiscard]] bool contains(const KeyType &key) const;   //done
+    [[nodiscard]] size_t size() const;                       //done
 
 private:
-    struct Node{
+    struct Node
+    {
         KeyType key;
         ValueType value;
         Node *next;
@@ -125,6 +126,127 @@ LinkedList<KeyType, ValueType>::~LinkedList()
     }
     head = nullptr;
     n = 0;
+}
+
+template<typename KeyType, typename ValueType>
+void LinkedList<KeyType, ValueType>::erase(const KeyType &key)
+{
+    if (head == nullptr) return;
+    Node* temp = head;
+    if (head->key == key)
+    {
+        Node* temp2 = head;
+        head = head->next;
+        delete temp2;
+        n--;
+        return;
+    }
+    while(temp->next != nullptr)
+    {
+        if (temp->next->key == key)
+        {
+            Node* temp2 = temp->next;
+            temp->next = temp2->next;
+            delete temp2;
+            n--;
+            break;
+        }
+        else temp = temp->next;
+    }
+}
+
+template<typename KeyType, typename ValueType>
+void LinkedList<KeyType, ValueType>::clear()
+{
+    Node* temp = head;
+    Node* next;
+    while (temp != nullptr)
+    {
+        next = temp->next;
+        delete temp;
+        temp = next;
+    }
+    head = nullptr;
+    n = 0;
+}
+
+template<typename KeyType, typename ValueType>
+const ValueType& LinkedList<KeyType, ValueType>::at(const KeyType &key) const //non modifiable 
+{
+    Node* temp = head;
+    while (temp != nullptr)
+    {
+        if (temp->key == key) 
+        {
+            return temp->value;
+            break;
+        }
+        temp = temp->next;
+    }
+    throw std::out_of_range("Key not found");
+}
+
+template<typename KeyType, typename ValueType>
+ValueType& LinkedList<KeyType, ValueType>::at(const KeyType &key) 
+{
+    Node* temp = head;
+    while (temp != nullptr)
+    {
+        if (temp->key == key) 
+        {
+            return temp->value;
+            break;
+        }
+        temp = temp->next;
+    }
+    throw std::out_of_range("Key not found");  
+}
+
+template<typename KeyType, typename ValueType>
+ValueType* LinkedList<KeyType, ValueType>::find(const KeyType &key) 
+{
+    Node* temp = head;
+    while (temp != nullptr)
+    {
+        if (temp->key == key) 
+        {
+            return &(temp->value);  //pointer
+            break;
+        }
+        temp = temp->next;
+    }
+    return nullptr; 
+}
+
+template<typename KeyType, typename ValueType>
+bool LinkedList<KeyType, ValueType>::contains(const KeyType &key) const
+{
+    Node* temp = head;
+    while (temp != nullptr)
+    {
+        if (temp->key == key) return true;
+        temp = temp->next;
+    }
+    return false;
+}
+
+template<typename KeyType, typename ValueType>
+void LinkedList<KeyType, ValueType>::insert(const KeyType &key, const ValueType &value)
+{
+    if (contains(key))
+    {
+        at(key) = value;
+        return;
+    }
+    Node* newnode = new Node{key, value, nullptr};
+    if (n == 0) head = newnode;
+    else
+    {
+        Node* temp = head;
+        while (temp->next != nullptr) temp = temp->next;
+        temp->next = newnode;
+    }
+    n++;
 }
 
 template<typename KeyType, typename ValueType>   //default copy function
@@ -172,6 +294,35 @@ LinkedList<KeyType, ValueType>& LinkedList<KeyType, ValueType>::operator=(Linked
     return *this;
 }
 
+template<typename KeyType, typename ValueType>
+bool LinkedList<KeyType, ValueType>::operator==(const LinkedList &other) const  //compare entire linked list
+{
+    if (n != other.n) return false;
+    Node* temp1;
+    Node* temp2;
+    temp1 = head;
+    temp2 = other.head;
+    while (temp1 != nullptr || temp2 != nullptr)
+    {
+        if (temp1-> value != temp2-> value || temp1->key != temp2->key) return false;
+        temp1= temp1->next;
+        temp2 = temp2->next;
+    }
+    return true;
+}
+
+template<typename KeyType, typename ValueType>
+bool LinkedList<KeyType, ValueType>::operator!=(const LinkedList &other) const
+{
+    return (!(*this == other));  //have to use this instead of head as head is a pointer and we are comparing objects
+}
+
+template<typename KeyType, typename ValueType>
+size_t LinkedList<KeyType, ValueType>::size() const
+{
+    return n;
+}
+
 template <size_t N, typename KeyType, typename ValueType, typename HashFunc>
 class HashMap{
 public:
@@ -214,15 +365,15 @@ public:
 
 
 // ---------- UnComment the macros as you go on, this allows for partial submissions ----------///
-// #define TEST_CASE_1
-// #define TEST_CASE_2
-// #define TEST_CASE_3
-// #define TEST_CASE_4
-// #define TEST_CASE_5
-// #define TEST_CASE_6
-// #define TEST_CASE_7
-// #define TEST_CASE_8
-// #define TEST_CASE_9
+#define TEST_CASE_1
+#define TEST_CASE_2
+#define TEST_CASE_3
+#define TEST_CASE_4
+#define TEST_CASE_5
+#define TEST_CASE_6
+#define TEST_CASE_7
+#define TEST_CASE_8
+#define TEST_CASE_9
 // #define TEST_CASE_10
 // #define TEST_CASE_11
 // #define TEST_CASE_12
