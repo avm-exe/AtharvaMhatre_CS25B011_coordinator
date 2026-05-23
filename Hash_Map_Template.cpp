@@ -235,8 +235,7 @@ void LinkedList<KeyType, ValueType>::insert(const KeyType &key, const ValueType 
 {
     if (contains(key))
     {
-        at(key) = value;
-        return;
+        return;  //changed!! we shouldnt replace the value
     }
     Node* newnode = new Node{key, value, nullptr};
     if (n == 0) head = newnode;
@@ -417,7 +416,7 @@ ValueType& HashMap<N, KeyType, ValueType, HashFunc>::at(const KeyType &key)
 }
 
 template <size_t N, typename KeyType, typename ValueType, typename HashFunc>
-ValueType& HashMap<N, KeyType, ValueType, HashFunc>::operator[](const KeyType &key)
+ValueType& HashMap<N, KeyType, ValueType, HashFunc>::operator[](const KeyType &key)  //if present then return index. else add and then return index
 {
     size_t ind = hash(key)%N;  
     if (buckets[ind].contains(key)) return buckets[ind].at(key);
@@ -458,7 +457,7 @@ bool HashMap<N, KeyType, ValueType, HashFunc>::empty() const
 }
 
 template<size_t N, typename KeyType, typename ValueType, typename HashFunc>
-size_t HashMap<N, KeyType, ValueType, HashFunc>::size() const    
+size_t HashMap<N, KeyType, ValueType, HashFunc>::size() const     //sum of all counts
 {
     size_t total = 0;
     for (size_t i = 0; i<N; i++)
@@ -475,19 +474,21 @@ public:
 };
 
 template<>
-size_t HashFunctor<int>::operator()(int key) const
+size_t HashFunctor<int>::operator()(int key) const  //negative values dont matter much as we are taking mod separately
 {
     return key;
 }
 
 template<>
-size_t HashFunctor<float>::operator()(float key) const
+size_t HashFunctor<float>::operator()(float key) const  //convert the float to just a string of bits and then interpret as an int
 {
-    return (int)key;
+    unsigned int bits;
+    __builtin_memcpy(&bits, &key, sizeof(bits));
+    return (int)bits;
 }
 
 template<>
-size_t HashFunctor<std::string>::operator()(std::string key) const
+size_t HashFunctor<std::string>::operator()(std::string key) const  //djb2 hashing for strings
 {
     size_t hash = 5381;
     for (char c : key) hash = hash * 31 + static_cast<unsigned char>(c);
