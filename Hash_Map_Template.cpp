@@ -109,6 +109,69 @@ private:
     size_t n = 0;
 };
 
+template<typename KeyType, typename ValueType>  //default constructor
+LinkedList<KeyType, ValueType>::LinkedList(){}
+
+template<typename KeyType, typename ValueType>  //default destructor
+LinkedList<KeyType, ValueType>::~LinkedList()
+{
+    Node* temp = head;
+    Node* next;
+    while (temp != nullptr)
+    {
+        next = temp->next;
+        delete temp;
+        temp = next;
+    }
+    head = nullptr;
+    n = 0;
+}
+
+template<typename KeyType, typename ValueType>   //default copy function
+LinkedList<KeyType, ValueType>::LinkedList(const LinkedList &other)
+{
+    Node* nav = other.head;
+    while(nav != nullptr)
+    {
+        insert(nav->key, nav->value);
+        nav = nav->next;
+    }
+}
+
+template<typename KeyType, typename ValueType>   //default move function
+LinkedList<KeyType, ValueType>::LinkedList(LinkedList &&other) noexcept
+{
+    head = other.head;
+    n = other.n;
+    other.head = nullptr;
+    other.n = 0;
+}
+   
+//return type is important to support chained operations
+template<typename KeyType, typename ValueType> 
+LinkedList<KeyType, ValueType>& LinkedList<KeyType, ValueType>::operator=(const LinkedList &other)  //default copy assignment
+{
+    clear();
+    Node* nav = other.head;
+    while(nav != nullptr) 
+    {
+        insert(nav->key, nav->value);
+        nav = nav->next;
+    }
+    return *this;
+}
+
+template<typename KeyType, typename ValueType>
+LinkedList<KeyType, ValueType>& LinkedList<KeyType, ValueType>::operator=(LinkedList &&other) noexcept  //default move operator
+{
+    clear();
+    head = other.head;
+    n = other.n;
+    other.head = nullptr;
+    other.n = 0;
+    return *this;
+}
+
 template <size_t N, typename KeyType, typename ValueType, typename HashFunc>
 class HashMap{
 public:
