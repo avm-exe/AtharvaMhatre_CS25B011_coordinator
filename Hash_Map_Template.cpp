@@ -179,7 +179,6 @@ const ValueType& LinkedList<KeyType, ValueType>::at(const KeyType &key) const //
         if (temp->key == key) 
         {
             return temp->value;
-            break;
         }
         temp = temp->next;
     }
